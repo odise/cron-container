@@ -9,8 +9,12 @@ RUN curl -skLo /root/ep https://github.com/kreuzwerker/envplate/releases/downloa
 RUN curl -skLo /root/etcd-backup https://github.com/odise/etcd-backup/releases/download/v0.0.1/etcd-backup-linux && chmod +x /root/etcd-backup
 
 # for some reason the linux release didn't worked for me
-#RUN curl -skLo /root/gof3r https://github.com/rlmcpherson/s3gof3r/releases/download/v0.4.9/gof3r_0.4.9_linux_amd64.tar.gz && chmod +x /root/gof3r
-ADD gof3r /root/gof3r
+RUN curl -skL https://github.com/rlmcpherson/s3gof3r/releases/download/v0.4.9/gof3r_0.4.9_linux_amd64.tar.gz | \
+   gunzip | tar -x -C /tmp -f - && \
+   mv /tmp/gof3r_0.4.9_linux_amd64/gof3r /root && \
+   chmod +x /root/gof3r && \
+   rm -rf /tmp/gof3r_0.4.9_linux_amd64/gof3r
+
 ADD https://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt /etc/ssl/ca-bundle.pem
 
 # add scheduler and create jobs entrypoint
