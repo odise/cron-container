@@ -1,8 +1,8 @@
 FROM progrium/busybox
 RUN opkg-install curl bash
 
-RUN curl -skL https://github.com/michaloo/go-cron/releases/download/v0.0.2/go-cron.tar.gz | \
-   tar -x -C /root -f - 
+RUN curl -skL https://github.com/odise/go-cron/releases/download/v0.0.3/go-cron-linux.gz | \
+   gunzip -c > /root/go-cron && chmod a+x /root/go-cron
 
 RUN curl -skLo /root/ep https://github.com/kreuzwerker/envplate/releases/download/v0.0.4/ep-linux && chmod +x /root/ep
 
@@ -24,6 +24,8 @@ RUN mkdir /jobs
 # thats our default
 ADD etcdbackupjob.sh /jobs/job.sh
 RUN chmod a+x /jobs/job.sh
+
+EXPOSE 18080
 
 # variable substitution and scheduler start
 CMD [ "/root/ep", \
