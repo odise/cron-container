@@ -31,4 +31,4 @@ EOF
 
 /root/etcd-backup -config=/root/backup-configuration.json \
   -etcd-config=/root/etcd-configuration.json dump && \
-  /root/gof3r cp --endpoint=s3-eu-west-1.amazonaws.com --debug /root/${ETCD_DUMP_FILENAME:-dump.json} s3://${AWS_S3_BUCKET}/${ETCD_DUMP_FILENAME:-dump.json}
+  /root/gof3r cp --endpoint=${AWS_S3_ENDPOINT:-s3-eu-west-1.amazonaws.com} --debug /root/${ETCD_DUMP_FILENAME:-dump.json} s3://${AWS_S3_BUCKET}/${ETCD_DUMP_FILENAME:-dump.json}
