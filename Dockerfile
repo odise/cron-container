@@ -1,7 +1,7 @@
 FROM progrium/busybox
 RUN opkg-install curl bash
 
-RUN curl -skL https://github.com/odise/go-cron/releases/download/v0.0.3/go-cron-linux.gz | \
+RUN curl -skL https://github.com/odise/go-cron/releases/download/v0.0.5/go-cron-linux.gz | \
    gunzip -c > /root/go-cron && chmod a+x /root/go-cron
 
 RUN curl -skLo /root/ep https://github.com/kreuzwerker/envplate/releases/download/v0.0.4/ep-linux && chmod +x /root/ep
@@ -22,8 +22,9 @@ RUN chmod a+x /root/scheduler.sh
 RUN mkdir /jobs
 
 # thats our default
-ADD etcdbackupjob.sh /jobs/job.sh
-RUN chmod a+x /jobs/job.sh
+ADD etcdbackupjob.sh /jobs/
+ADD elasticsearchbackupjob.sh /jobs/
+RUN chmod a+x /jobs/*
 
 EXPOSE 18080
 
