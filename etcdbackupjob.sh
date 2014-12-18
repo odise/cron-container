@@ -1,9 +1,9 @@
 cat << EOF > /root/etcd-configuration.json
 {
   "cluster": {
-      "leader": "${ETCD_LEADER}",
+      "leader": "${ETCD_LEADER:-http://localhost:2379}",
       "machines": [
-            ${ETCD_MACHINES:-""}
+            ${ETCD_MACHINES:-"http://localhost:2379"}
           ]
     },
   "config": {
