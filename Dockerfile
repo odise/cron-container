@@ -1,7 +1,7 @@
 FROM progrium/busybox
 RUN opkg-install curl bash
 
-RUN curl -skL https://github.com/odise/go-cron/releases/download/v0.0.5/go-cron-linux.gz | \
+RUN curl -skL https://github.com/odise/go-cron/releases/download/v0.0.6/go-cron-linux.gz | \
    gunzip -c > /root/go-cron && chmod a+x /root/go-cron
 
 RUN curl -skLo /root/ep https://github.com/kreuzwerker/envplate/releases/download/v0.0.4/ep-linux && chmod +x /root/ep

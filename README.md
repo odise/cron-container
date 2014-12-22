@@ -32,7 +32,7 @@ For ETCD backups:
 
 `
 docker run -d --name etcdbackup \
-         -e GOCRON_SCHEDULE="0 0 * * * *" \
+         -e GOCRON_SCHEDULE="0 1 * * * *" \
          -e CRONJOB_COMMAND="etcdbackupjob.sh" \
          -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY \
          -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
@@ -52,7 +52,7 @@ options for the AWS plugin of ES here: https://github.com/elasticsearch/elastics
 `
 docker run -d --name elasticsearchbackup \
          -e GOCRON_SCHEDULE="0 0/3 * * * *" \
-         -e CRONJOB_COMMAND="sh /jobs/elasicsearchbackupjob.sh" \
+         -e CRONJOB_COMMAND="elasticsearchbackupjob.sh" \
          -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY \
          -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
          -e AWS_S3_BUCKET=de.kreuzwerker.jan.test \
