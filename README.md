@@ -1,8 +1,8 @@
-# etcd-backup-cron
+# cron-container
 
-Run an ETCD backup or Elasticsearch index backup task inside a Docker container and upload it to AWS S3.
+Run a job periodically like ETCD backup or Elasticsearch index backup task inside a Docker container and upload it to AWS S3.
 The status of the last cron run can be checked on container port 18080. 
-The resulting Docker container ahs a size of approx. 25mb.
+The resulting Docker container ahs a size of approx. 30mb.
 
 # Environment variables to set
 
