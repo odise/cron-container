@@ -16,14 +16,14 @@ if [ -n "$AWS_KEY" ] && [ -n "$AWS_SECRET" ]; then
 fi
 
 echo "... Checking the repository ... "
-code=$(curl -s -S -o /dev/null -w "%{http_code}" \
+code=$(curl -s -S -o /dev/stderr -w "%{http_code}" \
   "$ES_HOST/_snapshot/$ES_REPO?pretty")
 
 # create it if it doesn't exists
 if [ $code -ne 200 ]; then
 
   echo " ... Creating repository ..."
-  code=$(curl -s -S -o /dev/null -w "%{http_code}" \
+  code=$(curl -s -S -o /dev/stderr -w "%{http_code}" \
     -XPUT "$ES_HOST/_snapshot/$ES_REPO?pretty" -d "{
     \"type\": \"s3\",
     \"settings\": {
@@ -39,11 +39,21 @@ if [ $code -ne 200 ]; then
 fi
 
 echo " ... Taking snapshot ..."
-curl -s -S \
+code=$(curl -s -S -o /dev/stderr -w "%{http_code}" \
   -XPUT "$ES_HOST/_snapshot/$ES_REPO/$SNAPSHOTNAME?wait_for_completion=true&pretty=true" -d '{
   "ignore_unavailable": "true",
   "include_global_state": false
-}'
+}')
+if [ $code -ne 200 ]; then
+  echo " ... Couldn't create the snapshot on repository $ES_REPO at $ES_HOST"
+  return 2
+fi
 
 echo " ... Checking snapshot ..."
-curl -s -S "$ES_HOST/_snapshot/$ES_REPO/$SNAPSHOTNAME?pretty"
+code=$(curl -s -S -o /dev/stderr -w "%{http_code}" \
+  -XGET "$ES_HOST/_snapshot/$ES_REPO/$SNAPSHOTNAME?pretty")
+
+if [ $code -ne 200 ]; then
+  echo " ... Couldn't check the snapshot on repository $ES_REPO at $ES_HOST"
+  return 3
+fi
